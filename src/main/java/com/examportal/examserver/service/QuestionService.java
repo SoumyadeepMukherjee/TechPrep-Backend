@@ -37,26 +37,39 @@ public class QuestionService
 		return this.questionRepo.findAll();
 	}
 	
-	public List<Question> getQuestion(String content) throws QuestionNotFoundException
+	public Question getQuestion(int quesId) throws QuestionNotFoundException
 	{ 
-		List<Question> l1 = questionRepo.findAll();
-		List<Question> l2 = new ArrayList<>();
-		for(Question q :l1) 
-		{
-			if(q.getContent().contains(content)) {
-				l2.add(q);
-			}
-		}
-		if(l2.size()==0) {
-			throw new QuestionNotFoundException("No such Question found");
-		}
-		return l2;
+		
+		return this.questionRepo.findById(quesId).get();
+		
+//		List<Question> l1 = questionRepo.findAll();
+//		List<Question> l2 = new ArrayList<>();
+//		for(Question q :l1) 
+//		{
+//			if(q.getContent().contains(content)) {
+//				l2.add(q);
+//			}
+//		}
+//		if(l2.size()==0) {
+//			throw new QuestionNotFoundException("No such Question found");
+//		}
+//		return l2;
 	}
+
 	
 	public Set<Question> getQuestionsByQuiz(Quiz quiz)
 	{
 		int id = quiz.getQid();
 		return this.questionRepo.findByQuiz(id);
+	}
+	
+	public void deleteQuestion(int quesId) throws QuestionNotFoundException
+	{
+		Question q=this.questionRepo.findById(quesId).orElse(null);
+		if (q==null)
+			throw new QuestionNotFoundException("Question Not Present!");
+		
+		this.questionRepo.delete(q);
 	}
 	
 }

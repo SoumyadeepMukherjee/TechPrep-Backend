@@ -19,8 +19,8 @@ public class QuizService {
 	
 	public Quiz addQuiz(Quiz quiz) throws QuizNotFoundException
 	{
-		Quiz c = quizRepo.findById(quiz.getQid()).orElse(null);
-		if(c!=null) {
+		Quiz q = quizRepo.findById(quiz.getQid()).orElse(null);
+		if(q!=null) {
 			throw new QuizNotFoundException("Quiz already present");
 		}
 		quiz = quizRepo.save(quiz);
@@ -41,19 +41,18 @@ public class QuizService {
 	{
 		Quiz q = quizRepo.findById(quizId).orElse(null);
 		if(q==null) {
-			throw new QuizNotFoundException("No quiz id found");
+			throw new QuizNotFoundException("No Quiz found");
 		}
 		return q;
 	}
 	
 	public void deleteQuiz(int quizId) throws QuizNotFoundException
 	{
-		
-		Quiz c = quizRepo.findById(quizId).orElse(null);
-		if(c==null) {
-			throw new QuizNotFoundException("Quiz Not found!!");
+		Quiz q = quizRepo.findById(quizId).orElse(null);
+		if(q==null) {
+			throw new QuizNotFoundException("No such Quiz found!!");
 		}
-		quizRepo.delete(c);
+		quizRepo.delete(q);
 	}
 	
 }
