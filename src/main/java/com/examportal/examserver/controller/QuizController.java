@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.examportal.examserver.entity.Quiz;
@@ -16,13 +17,14 @@ import com.examportal.examserver.exception.QuizNotFoundException;
 import com.examportal.examserver.service.QuizService;
 
 @RestController
+@RequestMapping("/quiz")
 @CrossOrigin("*")
 public class QuizController {
 	
 	@Autowired
 	private QuizService quizService;
 	
-	@PostMapping("/")
+	@PostMapping("/addquiz")
 	public ResponseEntity<Quiz> addQuiz(@RequestBody Quiz q) throws QuizNotFoundException
 	{
 		return ResponseEntity.ok(this.quizService.addQuiz(q));
@@ -46,9 +48,9 @@ public class QuizController {
 		return this.quizService.getQuiz(qid);
 	}
 	
-	@DeleteMapping("/{qid}")
-	public void deleteQuiz(@PathVariable("qid") int qid) throws QuizNotFoundException
+	@DeleteMapping("/{qId}")
+	public void deleteQuiz(@PathVariable("qId") int qId) throws QuizNotFoundException
 	{
-		this.quizService.deleteQuiz(qid);
+		this.quizService.deleteQuiz(qId);
 	}
 }

@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.examportal.examserver.dao.QuizRepository;
-import com.examportal.examserver.entity.Category;
 import com.examportal.examserver.entity.Quiz;
-import com.examportal.examserver.exception.CategoryNotFoundException;
 import com.examportal.examserver.exception.QuizNotFoundException;
 
 @Service
