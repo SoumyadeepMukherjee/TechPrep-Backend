@@ -33,6 +33,7 @@ public class Category {
 	private String description;
 	
 	@OneToMany(mappedBy="category",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@JsonIgnore
 	private List<Quiz> quizzes=new ArrayList<>();
 
 	public int getCid() {

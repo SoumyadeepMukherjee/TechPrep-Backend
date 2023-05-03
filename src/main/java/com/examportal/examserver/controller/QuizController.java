@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.examportal.examserver.entity.Quiz;
 import com.examportal.examserver.exception.QuizNotFoundException;
+import com.examportal.examserver.model.QuizModel;
 import com.examportal.examserver.service.QuizService;
 
 @RestController
@@ -24,17 +25,17 @@ public class QuizController {
 	@Autowired
 	private QuizService quizService;
 	
-	@PostMapping("/addquiz")
-	public ResponseEntity<Quiz> addQuiz(@RequestBody Quiz q) throws QuizNotFoundException
-	{
-		return ResponseEntity.ok(this.quizService.addQuiz(q));
-	}
-	
-	@PutMapping("/")
-	public ResponseEntity<Quiz> updateQuiz(@RequestBody Quiz q)
-	{
-		return ResponseEntity.ok(this.quizService.updateQuiz(q));
-	}
+//	@PostMapping("/addquiz")
+//	public ResponseEntity<Quiz> addQuiz(@RequestBody QuizModel q) throws QuizNotFoundException
+//	{
+//		return ResponseEntity.ok(this.quizService.addQuiz(q));
+//	}
+//	
+//	@PutMapping("/")
+//	public ResponseEntity<Quiz> updateQuiz(@RequestBody QuizModel q)
+//	{
+//		return ResponseEntity.ok(this.quizService.updateQuiz(q));
+//	}
 	
 	@GetMapping("/")
 	public ResponseEntity<?> getQuizzes()
@@ -48,9 +49,9 @@ public class QuizController {
 		return this.quizService.getQuiz(qid);
 	}
 	
-	@DeleteMapping("/{qId}")
-	public void deleteQuiz(@PathVariable("qId") int qId) throws QuizNotFoundException
-	{
-		this.quizService.deleteQuiz(qId);
-	}
+//	@DeleteMapping("/{qId}")
+//	public void deleteQuiz(@PathVariable("qId") int qId) throws QuizNotFoundException
+//	{
+//		this.quizService.deleteQuiz(qId);
+//	}
 }

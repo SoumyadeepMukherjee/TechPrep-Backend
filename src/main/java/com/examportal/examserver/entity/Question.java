@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,9 @@ public class Question {
 	private String option3;
 	private String option4;
 	private String ans;
+	
+	@Transient
+	private String givenAns;
 	
 	@ManyToOne
 	@JoinColumn(name="qid")
@@ -100,6 +104,14 @@ public class Question {
 
 	public void setQuiz(Quiz quiz) {
 		this.quiz = quiz;
+	}
+
+	public String getGivenAns() {
+		return givenAns;
+	}
+
+	public void setGivenAns(String givenAns) {
+		this.givenAns = givenAns;
 	}
 	
 	

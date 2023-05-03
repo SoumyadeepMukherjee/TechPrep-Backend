@@ -35,13 +35,13 @@ public class Quiz {
 	private String description;
 	private String maxMarks;
 	private String noOfQs;
-	private boolean active=false;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="cid")
 	private Category category;
 	
 	@OneToMany(mappedBy="quiz",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	@JsonIgnore
 	private List<Question> questions=new ArrayList<>();
 
 	public int getQid() {
@@ -82,14 +82,6 @@ public class Quiz {
 
 	public void setNoOfQs(String noOfQs) {
 		this.noOfQs = noOfQs;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 	public Category getCategory() {

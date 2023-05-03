@@ -12,19 +12,14 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class QuestionModel {
-	private String content;
+	
 	private String option1;
 	private String option2;
 	private String option3;
 	private String option4;
 	private String ans;
-	private int qid;
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
+	
+	
 	public String getOption1() {
 		return option1;
 	}
@@ -55,12 +50,7 @@ public class QuestionModel {
 	public void setAns(String ans) {
 		this.ans = ans;
 	}
-	public int getQid() {
-		return qid;
-	}
-	public void setQid(int qid) {
-		this.qid = qid;
-	}
+	
 	
 	
 }

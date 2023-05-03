@@ -7,14 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.examportal.examserver.dao.CategoryRepository;
-import com.examportal.examserver.dao.UserRepository;
 import com.examportal.examserver.entity.Category;
-import com.examportal.examserver.entity.User;
 import com.examportal.examserver.exception.CategoryNotFoundException;
-import com.examportal.examserver.exception.UserNotFoundException;
-import com.examportal.examserver.model.CategoryInputModel;
 import com.examportal.examserver.model.CategoryOutputModel;
-import com.examportal.examserver.model.RoleModel;
 
 @Service
 public class CategoryService {
@@ -22,30 +17,30 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository categoryRepo;
 	
-	public Category addCategory(CategoryInputModel categoryModel) throws CategoryNotFoundException,UserNotFoundException
-	{
-		
-		List<Category> list1 = categoryRepo.findAll();
-		Category category = new Category();
-		if(categoryModel.getRoleName().equalsIgnoreCase("Admin")) 
-		{
-			category.setDescription(categoryModel.getDescription());
-			category.setTitle(categoryModel.getTitle());
-			category = categoryRepo.save(category);
-			return category; 
-		}
-		
-		else {
-			throw new UserNotFoundException("Only Admin can add category");
-		}
-		
-	}
-	
-	public Category updateCategory(Category category)
-	{
-		return this.categoryRepo.save(category);
-	}
-	
+//	public Category addCategory(CategoryInputModel categoryModel) throws CategoryNotFoundException,UserNotFoundException
+//	{
+//		
+//		List<Category> list1 = categoryRepo.findAll();
+//		Category category = new Category();
+//		if(categoryModel.getRoleName().equalsIgnoreCase("Admin")) 
+//		{
+//			category.setDescription(categoryModel.getDescription());
+//			category.setTitle(categoryModel.getTitle());
+//			category = categoryRepo.save(category);
+//			return category; 
+//		}
+//		
+//		else {
+//			throw new UserNotFoundException("Only Admin can add category");
+//		}
+//		
+//	}
+//	
+//	public Category updateCategory(Category category)
+//	{
+//		return this.categoryRepo.save(category);
+//	}
+//	
 	public List<CategoryOutputModel> getCategories() throws CategoryNotFoundException
 	{
 		List<Category> list = categoryRepo.findAll();
@@ -72,17 +67,17 @@ public class CategoryService {
 		
 	}
 	
-	public void deleteCategory(int categoryId,RoleModel roleModel) throws CategoryNotFoundException, UserNotFoundException
-	{
-		Category c = categoryRepo.findById(categoryId).orElse(null);
-		if(c==null) {
-			throw new CategoryNotFoundException("Category Not found!!");
-		}
-		
-		if (roleModel.getRoleName().equals("Admin"))
-			categoryRepo.delete(c);
-		else
-			throw new UserNotFoundException("Only Admin is allowed to delete category");
-	}
+//	public void deleteCategory(int categoryId,RoleModel roleModel) throws CategoryNotFoundException, UserNotFoundException
+//	{
+//		Category c = categoryRepo.findById(categoryId).orElse(null);
+//		if(c==null) {
+//			throw new CategoryNotFoundException("Category Not found!!");
+//		}
+//		
+//		if (roleModel.getRoleName().equals("Admin"))
+//			categoryRepo.delete(c);
+//		else
+//			throw new UserNotFoundException("Only Admin is allowed to delete category");
+//	}
 	
 }
