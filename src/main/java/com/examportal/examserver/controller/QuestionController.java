@@ -18,6 +18,7 @@ import com.examportal.examserver.entity.Question;
 import com.examportal.examserver.entity.Quiz;
 import com.examportal.examserver.exception.QuestionNotFoundException;
 import com.examportal.examserver.exception.QuizNotFoundException;
+import com.examportal.examserver.model.QuestionModel;
 import com.examportal.examserver.service.QuestionService;
 import com.examportal.examserver.service.QuizService;
 
@@ -81,36 +82,12 @@ public class QuestionController {
 //	}
 	
 	@PostMapping("/eval-quiz")
-	public ResponseEntity<?> evalQuiz(@RequestBody List<Question> questions) throws QuestionNotFoundException
+	public ResponseEntity<?> evalQuiz(@RequestBody List<QuestionModel> questions) throws QuestionNotFoundException
 	{
-		System.out.println(questions);
+		//System.out.println(questions);
 		
-		double marksGot=0;
-		int correctAns=0;
-		int attempted=0;
+		Map<String, Object> mp=this.questionService.evaluateQuiz(questions);
 		
-		for (Question q:questions)
-		{
-			Question question=this.questionService.getQuestion(q.getQuesId());
-			
-			if (question.getAns().equals(q.getGivenAns()))
-			{
-				//Correct  ans 
-				correctAns++;
-				
-				double marksSingle=Double.parseDouble(questions.get(0).getQuiz().getMaxMarks())/questions.size();
-				marksGot+=marksSingle;
-			}
-			
-			if (q.getGivenAns()!=null)
-			{
-				attempted++;
-			}
-			
-		}
-		
-		Map<String,Object> map=Map.of("markssGot",marksGot,"correctAnswers",correctAns,"attempted",attempted);
-		
-		return ResponseEntity.ok(map);
+		return ResponseEntity.ok(mp);
 	}
 }
