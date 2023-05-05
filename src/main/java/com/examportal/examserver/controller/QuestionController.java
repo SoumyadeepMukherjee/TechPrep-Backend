@@ -18,7 +18,8 @@ import com.examportal.examserver.entity.Question;
 import com.examportal.examserver.entity.Quiz;
 import com.examportal.examserver.exception.QuestionNotFoundException;
 import com.examportal.examserver.exception.QuizNotFoundException;
-import com.examportal.examserver.model.QuestionModel;
+import com.examportal.examserver.model.QuestionInputModel;
+import com.examportal.examserver.model.QuestionOutputModel;
 import com.examportal.examserver.service.QuestionService;
 import com.examportal.examserver.service.QuizService;
 
@@ -32,18 +33,6 @@ public class QuestionController {
 	
 	@Autowired
 	private QuizService quizService;
-	
-//	@PostMapping("/")
-//	public ResponseEntity<Question> addQuestion(@RequestBody Question question)
-//	{
-//		return ResponseEntity.ok(this.questionService.addQuestion(question));
-//	}
-//	
-//	@PutMapping("/")
-//	public ResponseEntity<Question> updateQuestion(@RequestBody Question q)
-//	{
-//		return ResponseEntity.ok(this.questionService.updateQuestion(q));
-//	}
 	
 	@GetMapping("/")
 	public ResponseEntity<?> getQuestions()
@@ -70,19 +59,13 @@ public class QuestionController {
 	}
 	
 	@GetMapping("/{quesId}")
-	public Question getQuestion(@PathVariable("quesId") int quesId) throws QuestionNotFoundException
+	public QuestionInputModel getQuestion(@PathVariable("quesId") int quesId) throws QuestionNotFoundException
 	{
 		return this.questionService.getQuestion(quesId);
 	}
 	
-//	@DeleteMapping("/{quesId}")
-//	public void deleteQuestion(@PathVariable("quesId") int quesId) throws QuestionNotFoundException
-//	{
-//		this.questionService.deleteQuestion(quesId);
-//	}
-	
 	@PostMapping("/eval-quiz")
-	public ResponseEntity<?> evalQuiz(@RequestBody List<QuestionModel> questions) throws QuestionNotFoundException
+	public ResponseEntity<?> evalQuiz(@RequestBody List<QuestionOutputModel> questions) throws QuestionNotFoundException
 	{
 		//System.out.println(questions);
 		

@@ -1,6 +1,9 @@
 package com.examportal.examserver.exception;
 
-public class CategoryNotFoundException extends Exception{
+public class CategoryNotFoundException extends RuntimeException{
+	
+	private static final long serialVersionUID = 1L;
+
 	public CategoryNotFoundException() {
 		// TODO Auto-generated constructor stub
 	}

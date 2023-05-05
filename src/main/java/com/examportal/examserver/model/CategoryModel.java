@@ -1,5 +1,9 @@
 package com.examportal.examserver.model;
 
+import java.util.List;
+
+import com.examportal.examserver.entity.Quiz;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,10 +15,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class CategoryInputModel {
+public class CategoryModel {
 	private String title;
 	private String description;
-	private String roleName;
 	public String getTitle() {
 		return title;
 	}
@@ -27,12 +30,6 @@ public class CategoryInputModel {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getRoleName() {
-		return roleName;
-	}
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
-	
+
 	
 }

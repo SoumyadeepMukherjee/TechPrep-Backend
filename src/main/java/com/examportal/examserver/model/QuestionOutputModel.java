@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class QuestionModel {
+public class QuestionOutputModel {
 	
 	private int quesId;
 	private String ans;

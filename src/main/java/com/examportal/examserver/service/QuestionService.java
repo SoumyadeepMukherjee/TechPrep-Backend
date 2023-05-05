@@ -1,5 +1,7 @@
 package com.examportal.examserver.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +13,8 @@ import com.examportal.examserver.dao.QuestionRepository;
 import com.examportal.examserver.entity.Question;
 import com.examportal.examserver.entity.Quiz;
 import com.examportal.examserver.exception.QuestionNotFoundException;
-import com.examportal.examserver.model.QuestionModel;
+import com.examportal.examserver.model.QuestionInputModel;
+import com.examportal.examserver.model.QuestionOutputModel;
 
 @Service
 public class QuestionService 
@@ -20,66 +23,81 @@ public class QuestionService
 	@Autowired
 	private QuestionRepository questionRepo;
 	
-//	public Question addQuestion(Question question)
-//	{
-//		question = questionRepo.save(question);
-//		return question;
-//	}
-//	
-//	public Question updateQuestion(Question question)
-//	{
-//		return this.questionRepo.save(question);
-//	}
-	
-	public List<Question> getQuestions()
+	//Get all the questions list
+	public List<QuestionInputModel> getQuestions()
 	{
-		return this.questionRepo.findAll();
+		List<Question> questionList= this.questionRepo.findAll();
+		List<QuestionInputModel> questions=new ArrayList<>();
+		
+		for (Question q:questionList)
+		{
+			QuestionInputModel question=new QuestionInputModel();
+			question.setContent(q.getContent());
+			question.setOption1(q.getOption1());
+			question.setOption2(q.getOption2());
+			question.setOption3(q.getOption3());
+			question.setOption4(q.getOption4());
+			
+			questions.add(question);
+		}
+		
+		return questions;
 	}
 	
-	public Question getQuestion(int quesId) throws QuestionNotFoundException
+	//Get a particular question by their id
+	public QuestionInputModel getQuestion(int quesId) throws QuestionNotFoundException
 	{ 
+		Question q= this.questionRepo.findById(quesId).orElse(null);
 		
-		return this.questionRepo.findById(quesId).get();
+		if (q==null)
+		{
+			throw new QuestionNotFoundException("No Question Found");
+		}
 		
-//		List<Question> l1 = questionRepo.findAll();
-//		List<Question> l2 = new ArrayList<>();
-//		for(Question q :l1) 
-//		{
-//			if(q.getContent().contains(content)) {
-//				l2.add(q);
-//			}
-//		}
-//		if(l2.size()==0) {
-//			throw new QuestionNotFoundException("No such Question found");
-//		}
-//		return l2;
+		QuestionInputModel question=new QuestionInputModel();
+		question.setContent(q.getContent());
+		question.setOption1(q.getOption1());
+		question.setOption2(q.getOption2());
+		question.setOption3(q.getOption3());
+		question.setOption4(q.getOption4());
+		question.setAns(q.getAns());
+		
+		return question;
 	}
 
-	
-	public Set<Question> getQuestionsByQuiz(Quiz quiz)
+	//Get a set of questions by a particular quiz
+	public Set<QuestionInputModel> getQuestionsByQuiz(Quiz quiz)
 	{
 		int id = quiz.getQid();
-		return this.questionRepo.findByQuiz(id);
+		Set<Question> questionSet= this.questionRepo.findByQuiz(id);
+		Set<QuestionInputModel> questions=new HashSet<>();
+		
+		for (Question q:questionSet)
+		{
+			QuestionInputModel question=new QuestionInputModel();
+			question.setContent(q.getContent());
+			question.setOption1(q.getOption1());
+			question.setOption2(q.getOption2());
+			question.setOption3(q.getOption3());
+			question.setOption4(q.getOption4());
+			question.setAns(q.getAns());
+			
+			questions.add(question);
+		}
+		
+		return questions;
 	}
-	
-//	public void deleteQuestion(int quesId) throws QuestionNotFoundException
-//	{
-//		Question q=this.questionRepo.findById(quesId).orElse(null);
-//		if (q==null)
-//			throw new QuestionNotFoundException("Question Not Present!");
-//		
-//		this.questionRepo.delete(q);
-//	}
-	
-	public Map<String,Object> evaluateQuiz(List<QuestionModel> questions) throws QuestionNotFoundException
+
+	//Evaluate a set of questions
+	public Map<String,Object> evaluateQuiz(List<QuestionOutputModel> questions) throws QuestionNotFoundException
 	{
 		int marksSingle=5,marksDeduct=2,marksGot=0;
 		int correctAns=0;
 		int attempted=0;
 		
-		for (QuestionModel q:questions)
+		for (QuestionOutputModel q:questions)
 		{
-			Question question=this.getQuestion(q.getQuesId());
+			QuestionInputModel question=this.getQuestion(q.getQuesId());
 			
 			if (question==null)
 				throw new QuestionNotFoundException("Question Not Found!");

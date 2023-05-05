@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.examportal.examserver.dao.CategoryRepository;
 import com.examportal.examserver.entity.Category;
 import com.examportal.examserver.exception.CategoryNotFoundException;
-import com.examportal.examserver.model.CategoryOutputModel;
+import com.examportal.examserver.model.CategoryModel;
 
 @Service
 public class CategoryService {
@@ -17,67 +17,40 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository categoryRepo;
 	
-//	public Category addCategory(CategoryInputModel categoryModel) throws CategoryNotFoundException,UserNotFoundException
-//	{
-//		
-//		List<Category> list1 = categoryRepo.findAll();
-//		Category category = new Category();
-//		if(categoryModel.getRoleName().equalsIgnoreCase("Admin")) 
-//		{
-//			category.setDescription(categoryModel.getDescription());
-//			category.setTitle(categoryModel.getTitle());
-//			category = categoryRepo.save(category);
-//			return category; 
-//		}
-//		
-//		else {
-//			throw new UserNotFoundException("Only Admin can add category");
-//		}
-//		
-//	}
-//	
-//	public Category updateCategory(Category category)
-//	{
-//		return this.categoryRepo.save(category);
-//	}
-//	
-	public List<CategoryOutputModel> getCategories() throws CategoryNotFoundException
+	
+	//Get all categories
+	public List<CategoryModel> getCategories() throws CategoryNotFoundException
 	{
 		List<Category> list = categoryRepo.findAll();
-		List<CategoryOutputModel> list1 = new ArrayList<>();
+		List<CategoryModel> category = new ArrayList<>();
+		
 		for(Category c : list) {
-			CategoryOutputModel cm = new CategoryOutputModel();
+			CategoryModel cm = new CategoryModel();
 			cm.setDescription(c.getDescription());
 			cm.setTitle(c.getTitle());
-			list1.add(cm);
+			category.add(cm);
 		}
-		if(list1.size()==0) {
+		if(category.size()==0) {
 			throw new CategoryNotFoundException("No categories present");
 		}
-		return list1;
+		return category;
 	}
 	
-	public Category getCategory(int categoryId) throws CategoryNotFoundException
+	//Get category by category id
+	public CategoryModel getCategory(int categoryId) throws CategoryNotFoundException
 	{
 		Category c = categoryRepo.findById(categoryId).orElse(null);
 		if(c==null) {
 			throw new CategoryNotFoundException("Category Not found ");
 		}
-		return c;
+		
+		CategoryModel category=new CategoryModel();
+		category.setTitle(c.getTitle());
+		category.setDescription(c.getDescription());
+		
+		return category;
 		
 	}
-	
-//	public void deleteCategory(int categoryId,RoleModel roleModel) throws CategoryNotFoundException, UserNotFoundException
-//	{
-//		Category c = categoryRepo.findById(categoryId).orElse(null);
-//		if(c==null) {
-//			throw new CategoryNotFoundException("Category Not found!!");
-//		}
-//		
-//		if (roleModel.getRoleName().equals("Admin"))
-//			categoryRepo.delete(c);
-//		else
-//			throw new UserNotFoundException("Only Admin is allowed to delete category");
-//	}
+
 	
 }
