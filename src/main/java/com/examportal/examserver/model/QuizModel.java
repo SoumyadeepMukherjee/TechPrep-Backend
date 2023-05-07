@@ -23,6 +23,18 @@ public class QuizModel {
 	private String maxMarks;
 	private String noOfQs;
 	
+	public QuizModel()
+	{
+		
+	}
+	
+	public QuizModel(String title, String description, String maxMarks, String noOfQs) {
+		super();
+		this.title = title;
+		this.description = description;
+		this.maxMarks = maxMarks;
+		this.noOfQs = noOfQs;
+	}
 	public String getTitle() {
 		return title;
 	}

@@ -18,6 +18,17 @@ import lombok.ToString;
 public class CategoryModel {
 	private String title;
 	private String description;
+	
+	public CategoryModel()
+	{
+		
+	}
+	
+	public CategoryModel(String title, String description) {
+		super();
+		this.title = title;
+		this.description = description;
+	}
 	public String getTitle() {
 		return title;
 	}

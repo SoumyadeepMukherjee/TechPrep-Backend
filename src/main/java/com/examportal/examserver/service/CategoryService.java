@@ -22,18 +22,18 @@ public class CategoryService {
 	public List<CategoryModel> getCategories() throws CategoryNotFoundException
 	{
 		List<Category> list = categoryRepo.findAll();
-		List<CategoryModel> category = new ArrayList<>();
+		List<CategoryModel> categories = new ArrayList<>();
 		
 		for(Category c : list) {
 			CategoryModel cm = new CategoryModel();
 			cm.setDescription(c.getDescription());
 			cm.setTitle(c.getTitle());
-			category.add(cm);
+			categories.add(cm);
 		}
-		if(category.size()==0) {
+		if(categories.size()==0) {
 			throw new CategoryNotFoundException("No categories present");
 		}
-		return category;
+		return categories;
 	}
 	
 	//Get category by category id
