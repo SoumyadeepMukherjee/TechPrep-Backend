@@ -1,5 +1,7 @@
 package com.examportal.examserver.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -8,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.examportal.examserver.exception.CategoryNotFoundException;
 import com.examportal.examserver.model.CategoryModel;
 import com.examportal.examserver.service.CategoryService;
 
@@ -17,20 +18,29 @@ import com.examportal.examserver.service.CategoryService;
 @CrossOrigin("*")
 public class CategoryController {
 	
+	Logger logger=LoggerFactory.getLogger(CategoryController.class);
+	
 	@Autowired
 	private CategoryService categoryService;
 	
-
+	
 	@GetMapping("/{categoryId}")
-	public CategoryModel getCategory(@PathVariable("categoryId") int categoryId)
+	public CategoryModel viewCategory(@PathVariable("categoryId") int categoryId)
 	{
-		return categoryService.getCategory(categoryId);
+		logger.info("Category with category id "+categoryId+" ->"+categoryService.viewCategory(categoryId).getTitle());
+		return categoryService.viewCategory(categoryId);
 	}
 		
-	@GetMapping("/")
-	public ResponseEntity<?> getCategories()
+	@GetMapping("/viewcategories")
+	public ResponseEntity<?> viewAllCategories()
 	{
-		return ResponseEntity.ok(this.categoryService.getCategories());
+		logger.info("All available categories are ->");
+		for (CategoryModel c:categoryService.viewAllCategories())
+		{
+			logger.info(c.getTitle());
+		}
+		
+		return ResponseEntity.ok(this.categoryService.viewAllCategories());
 	}
 	
 }

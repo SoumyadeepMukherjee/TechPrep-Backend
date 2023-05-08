@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +20,7 @@ import com.examportal.examserver.entity.Question;
 import com.examportal.examserver.entity.Quiz;
 import com.examportal.examserver.exception.QuestionNotFoundException;
 import com.examportal.examserver.exception.QuizNotFoundException;
+import com.examportal.examserver.model.EvaluationModel;
 import com.examportal.examserver.model.QuestionInputModel;
 import com.examportal.examserver.model.QuestionOutputModel;
 import com.examportal.examserver.service.QuestionService;
@@ -28,17 +31,20 @@ import com.examportal.examserver.service.QuizService;
 @CrossOrigin("*")
 public class QuestionController {
 
+	Logger logger=LoggerFactory.getLogger(QuestionController.class);
+	
 	@Autowired
 	private QuestionService questionService;
 	
 	@Autowired
 	private QuizService quizService;
+
 	
-	@GetMapping("/")
-	public ResponseEntity<?> getQuestions()
-	{
-		return ResponseEntity.ok(this.questionService.getQuestions());
-	}
+//	@GetMapping("/")
+//	public ResponseEntity<?> getQuestions()
+//	{
+//		return ResponseEntity.ok(this.questionService.viewQuestions());
+//	}
 	
 	@GetMapping("/quiz/{qid}")
 	public ResponseEntity<?> getQuestionByQuiz(@PathVariable("qid") int qid) throws QuestionNotFoundException, QuizNotFoundException
@@ -48,11 +54,17 @@ public class QuestionController {
 //		Set<Question> questions= this.questionService.getQuestionsByQuiz(quiz);
 //		return ResponseEntity.ok(questions);
 		
-		Quiz quiz=this.quizService.getQuiz(qid);
+		Quiz quiz=this.quizService.viewQuiz(qid);
 		List<Question> questions=quiz.getQuestions();
 		
 		if (questions.size()>Integer.parseInt(quiz.getNoOfQs()))
 			questions=questions.subList(0,Integer.parseInt(quiz.getNoOfQs()+1));
+		
+		logger.info("Questions of quiz with quiz id "+quizService.viewQuiz(qid).getQid()+" are:");
+		for (Question q:questions)
+		{
+			logger.info("Question with id "+q.getQuesId()+" :"+q.getContent());
+		}
 		
 		Collections.shuffle(questions);
 		return ResponseEntity.ok(questions);
@@ -60,16 +72,21 @@ public class QuestionController {
 	
 	@GetMapping("/{quesId}")
 	public QuestionInputModel getQuestion(@PathVariable("quesId") int quesId) throws QuestionNotFoundException
-	{
-		return this.questionService.getQuestion(quesId);
+	{	
+		logger.info("Question with question id "+quesId+" ->"+questionService.viewQuestion(quesId).getContent());
+		return this.questionService.viewQuestion(quesId);
 	}
 	
 	@PostMapping("/eval-quiz")
-	public ResponseEntity<?> evalQuiz(@RequestBody List<QuestionOutputModel> questions) throws QuestionNotFoundException
+	public ResponseEntity<?> evalQuiz(@RequestBody EvaluationModel evaluationModel) throws QuestionNotFoundException
 	{
 		//System.out.println(questions);
 		
-		Map<String, Object> mp=this.questionService.evaluateQuiz(questions);
+		Map<String, Object> mp=this.questionService.evaluateQuiz(evaluationModel);
+		
+		logger.info("Questions attempted :"+mp.get("attempted"));
+		logger.info("Correct Answers :"+mp.get("correctAnswers"));
+		logger.info("Score :"+mp.get("marksGot"));
 		
 		return ResponseEntity.ok(mp);
 	}

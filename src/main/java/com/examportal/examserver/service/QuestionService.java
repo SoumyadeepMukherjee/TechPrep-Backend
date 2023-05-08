@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +15,24 @@ import com.examportal.examserver.dao.QuestionRepository;
 import com.examportal.examserver.entity.Question;
 import com.examportal.examserver.entity.Quiz;
 import com.examportal.examserver.exception.QuestionNotFoundException;
+import com.examportal.examserver.model.EvaluationModel;
 import com.examportal.examserver.model.QuestionInputModel;
 import com.examportal.examserver.model.QuestionOutputModel;
 
 @Service
 public class QuestionService 
 {
+
+	Logger logger=LoggerFactory.getLogger(QuestionService.class);
 	
 	@Autowired
 	private QuestionRepository questionRepo;
 	
 	//Get all the questions list
-	public List<QuestionInputModel> getQuestions()
+	public List<QuestionInputModel> viewQuestions()
 	{
+		logger.info("Start of view questions method");
+		
 		List<Question> questionList= this.questionRepo.findAll();
 		List<QuestionInputModel> questions=new ArrayList<>();
 		
@@ -45,8 +52,10 @@ public class QuestionService
 	}
 	
 	//Get a particular question by their id
-	public QuestionInputModel getQuestion(int quesId) throws QuestionNotFoundException
+	public QuestionInputModel viewQuestion(int quesId) throws QuestionNotFoundException
 	{ 
+		logger.info("Start of view question by id method");
+		
 		Question q= this.questionRepo.findById(quesId).orElse(null);
 		
 		if (q==null)
@@ -68,6 +77,7 @@ public class QuestionService
 	//Get a set of questions by a particular quiz
 	public Set<QuestionInputModel> getQuestionsByQuiz(Quiz quiz)
 	{
+		logger.info("Start of Get Questions by Quiz method");
 		int id = quiz.getQid();
 		Set<Question> questionSet= this.questionRepo.findByQuiz(id);
 		Set<QuestionInputModel> questions=new HashSet<>();
@@ -89,15 +99,17 @@ public class QuestionService
 	}
 
 	//Evaluate a set of questions
-	public Map<String,Object> evaluateQuiz(List<QuestionOutputModel> questions) throws QuestionNotFoundException
+	public Map<String,Object> evaluateQuiz(EvaluationModel evaluationModel) throws QuestionNotFoundException
 	{
+		logger.info("Start of evaluating quiz method");
+		
 		int marksSingle=5,marksDeduct=2,marksGot=0;
 		int correctAns=0;
 		int attempted=0;
 		
-		for (QuestionOutputModel q:questions)
+		for (QuestionOutputModel q:evaluationModel.getQuestions())
 		{
-			QuestionInputModel question=this.getQuestion(q.getQuesId());
+			QuestionInputModel question=this.viewQuestion(q.getQuesId());
 			
 			if (question==null)
 				throw new QuestionNotFoundException("Question Not Found!");
@@ -124,7 +136,7 @@ public class QuestionService
 			
 		}
 		
-		Map<String,Object> map=Map.of("markssGot",marksGot,"correctAnswers",correctAns,"attempted",attempted);
+		Map<String,Object> map=Map.of("marksGot",marksGot,"correctAnswers",correctAns,"attempted",attempted,"userId",evaluationModel.getUserId(),"quizId",evaluationModel.getQid());
 		
 		return map;
 	}

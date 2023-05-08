@@ -34,7 +34,7 @@ public class QuizServiceTest {
 		quizList.add(new QuizModel("This section consists of questions based on various Spring Boot concepts","200","20","Spring Boot"));
 		quizList.add(new QuizModel("This section consists of questions on Spring Data JPA concepts","100","20","Spring Data JPA"));
 		
-		List<QuizModel> actualList=quizService.getQuizzes();
+		List<QuizModel> actualList=quizService.viewQuizzes();
 		
 		assertNotNull(actualList);
 		assertEquals(quizList.size(), actualList.size());
@@ -43,7 +43,7 @@ public class QuizServiceTest {
 	@Test
 	public void testGetQuiz() throws QuizNotFoundException
 	{
-		assertEquals("Spring Boot", quizService.getQuiz(3).getTitle());
+		assertEquals("Spring Boot", quizService.viewQuiz(3).getTitle());
 	}
 	
 }

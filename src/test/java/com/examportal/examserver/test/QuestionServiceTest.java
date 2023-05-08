@@ -29,7 +29,7 @@ public class QuestionServiceTest {
 		quesList.add(new QuestionInputModel("singleton","What is the default scope of the Spring Bean?","singleton","prototype","request","session"));
 		quesList.add(new QuestionInputModel("To manage the lifecycle of beans and their dependencies","What is the purpose of the Spring IoC container?","To manage the lifecycle of beans and their dependencies","To handle the configuration of the application","To provide a caching mechanism for the application","To provide a security mechanism for the application"));
 		
-		List<QuestionInputModel> actualList=questionService.getQuestions();
+		List<QuestionInputModel> actualList=questionService.viewQuestions();
 		
 		assertNotNull(actualList);
 		
@@ -38,6 +38,6 @@ public class QuestionServiceTest {
 	
 	public void testGetQuestion() throws QuestionNotFoundException
 	{
-		assertEquals("Which attribute is used to specify class name of the bean?", questionService.getQuestion(1).getContent());
+		assertEquals("Which attribute is used to specify class name of the bean?", questionService.viewQuestion(1).getContent());
 	}
 }

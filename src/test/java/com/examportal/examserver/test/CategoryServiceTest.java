@@ -1,9 +1,7 @@
 package com.examportal.examserver.test;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +34,7 @@ public class CategoryServiceTest {
 		categoryList.add(new CategoryModel("This section contains quizzes based on Spring Boot","Spring Boot"));
 		categoryList.add(new CategoryModel("This section contains quizzes based on Spring Data JPA","Spring JPA"));
 		
-		List<CategoryModel> actualList=categoryService.getCategories();
+		List<CategoryModel> actualList=categoryService.viewAllCategories();
 		
 		assertNotNull(actualList);
 		assertEquals(categoryList.size(), actualList.size());
@@ -45,6 +43,6 @@ public class CategoryServiceTest {
 	@Test
 	public void testGetCategoryById()
 	{
-		assertEquals("Core Java", categoryService.getCategory(10).getTitle());
+		assertEquals("Core Java", categoryService.viewCategory(10).getTitle());
 	}
 }

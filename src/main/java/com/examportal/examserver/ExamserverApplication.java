@@ -8,9 +8,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ExamserverApplication {
 	
-	private Logger logger=LoggerFactory.getLogger(this.getClass());
+	static Logger logger=LoggerFactory.getLogger(ExamserverApplication.class);
 
 	public static void main(String[] args) {
+		
+		logger.info("Exam Portal Application starting...");
 		SpringApplication.run(ExamserverApplication.class, args);
 	}
 

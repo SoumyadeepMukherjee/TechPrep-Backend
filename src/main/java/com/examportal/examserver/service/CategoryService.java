@@ -3,9 +3,12 @@ package com.examportal.examserver.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.examportal.examserver.controller.CategoryController;
 import com.examportal.examserver.dao.CategoryRepository;
 import com.examportal.examserver.entity.Category;
 import com.examportal.examserver.exception.CategoryNotFoundException;
@@ -14,13 +17,16 @@ import com.examportal.examserver.model.CategoryModel;
 @Service
 public class CategoryService {
 	
+	Logger logger=LoggerFactory.getLogger(CategoryService.class);
+	
 	@Autowired
 	private CategoryRepository categoryRepo;
 	
 	
 	//Get all categories
-	public List<CategoryModel> getCategories() throws CategoryNotFoundException
+	public List<CategoryModel> viewAllCategories() throws CategoryNotFoundException
 	{
+		logger.info("Start of View all categories");
 		List<Category> list = categoryRepo.findAll();
 		List<CategoryModel> categories = new ArrayList<>();
 		
@@ -37,8 +43,9 @@ public class CategoryService {
 	}
 	
 	//Get category by category id
-	public CategoryModel getCategory(int categoryId) throws CategoryNotFoundException
+	public CategoryModel viewCategory(int categoryId) throws CategoryNotFoundException
 	{
+		logger.info("Start of View category by id");
 		Category c = categoryRepo.findById(categoryId).orElse(null);
 		if(c==null) {
 			throw new CategoryNotFoundException("Category Not found ");

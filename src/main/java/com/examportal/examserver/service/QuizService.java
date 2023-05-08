@@ -19,7 +19,7 @@ public class QuizService {
 	private QuizRepository quizRepo;
 	
 	//Get all quizzes
-	public List<QuizModel> getQuizzes()
+	public List<QuizModel> viewQuizzes()
 	{
 		List<Quiz> quizList= this.quizRepo.findAll();
 		List<QuizModel> quizzes=new ArrayList<>();
@@ -39,7 +39,7 @@ public class QuizService {
 	}
 	
 	//Get a particular quiz by quiz id
-	public Quiz getQuiz(int quizId) throws QuizNotFoundException
+	public Quiz viewQuiz(int quizId) throws QuizNotFoundException
 	{
 		Quiz q = quizRepo.findById(quizId).orElse(null);
 		if(q==null) {
