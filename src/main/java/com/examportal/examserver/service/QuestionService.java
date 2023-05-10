@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.examportal.examserver.dao.QuestionRepository;
+import com.examportal.examserver.dao.QuizRepository;
 import com.examportal.examserver.entity.Question;
 import com.examportal.examserver.entity.Quiz;
 import com.examportal.examserver.exception.QuestionNotFoundException;
@@ -27,6 +28,7 @@ public class QuestionService
 	
 	@Autowired
 	private QuestionRepository questionRepo;
+
 	
 	//Get all the questions list
 	public List<QuestionInputModel> viewQuestions()
@@ -103,7 +105,7 @@ public class QuestionService
 	{
 		logger.info("Start of evaluating quiz method");
 		
-		int marksSingle=5,marksDeduct=2,marksGot=0;
+		int marksSingle=0,marksDeduct=2,marksGot=0;
 		int correctAns=0;
 		int attempted=0;
 		
@@ -119,7 +121,7 @@ public class QuestionService
 				//Correct  ans
 				correctAns++;
 				
-				//marksSingle=Double.parseDouble(questions.get(0).getQuiz().getMaxMarks())/questions.size();
+				//marksSingle=Double.parseDouble(quizRepo.getQuiz(q.getQuesId()).getMaxMarks())/evaluationModel.getQuestions().size();
 				
 				marksGot+=marksSingle;
 			}

@@ -15,7 +15,7 @@ public interface QuizRepository extends JpaRepository<Quiz,Integer> {
 //	
 //	public Set<Quiz> getQuizzes();
 //	
-//	public Quiz getQuiz(Long quizId);
+//	public Quiz viewQuiz(int quizId);
 //	
 //	public void deleteQuiz(Long quizId);
 }

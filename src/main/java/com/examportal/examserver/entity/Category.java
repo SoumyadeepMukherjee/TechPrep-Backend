@@ -35,38 +35,6 @@ public class Category {
 	@OneToMany(mappedBy="category",cascade=CascadeType.ALL,fetch=FetchType.EAGER)
 	@JsonIgnore
 	private List<Quiz> quizzes=new ArrayList<>();
-
-	public int getCid() {
-		return cid;
-	}
-
-	public void setCid(int cid) {
-		this.cid = cid;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public List<Quiz> getQuizzes() {
-		return quizzes;
-	}
-
-	public void setQuizzes(List<Quiz> quizzes) {
-		this.quizzes = quizzes;
-	}
 	
 	
 }
