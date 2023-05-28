@@ -12,11 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class UserModel {
-	private String username;
 	private String password;
-	private String firstName;
-	private String lastName;
 	private String email;
-	private String phone;
 	
 }

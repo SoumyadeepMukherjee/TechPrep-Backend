@@ -1,5 +1,7 @@
 package com.examportal.examserver.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,16 @@ public class QuizController {
 			logger.info(q.getTitle());
 		}
 		return ResponseEntity.ok(this.quizService.viewQuizzes());
+	}
+	
+	
+	@GetMapping("/viewquizbycategory/{cid}")
+	public ResponseEntity<?> getQuizzesByCategory(@PathVariable("cid") int cid)
+	{
+		
+		List<QuizModel> q=quizService.viewQuizzesByCategory(cid);
+		
+		return ResponseEntity.ok(q);
 	}
 	
 	@GetMapping("/{qid}")

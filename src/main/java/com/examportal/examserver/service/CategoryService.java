@@ -32,6 +32,7 @@ public class CategoryService {
 		
 		for(Category c : list) {
 			CategoryModel cm = new CategoryModel();
+			cm.setCid(c.getCid());
 			cm.setDescription(c.getDescription());
 			cm.setTitle(c.getTitle());
 			categories.add(cm);
@@ -52,6 +53,7 @@ public class CategoryService {
 		}
 		
 		CategoryModel category=new CategoryModel();
+		category.setCid(c.getCid());
 		category.setTitle(c.getTitle());
 		category.setDescription(c.getDescription());
 		

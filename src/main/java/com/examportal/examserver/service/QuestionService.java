@@ -105,7 +105,7 @@ public class QuestionService
 	{
 		logger.info("Start of evaluating quiz method");
 		
-		int marksSingle=0,marksDeduct=2,marksGot=0;
+		int marksSingle=5,marksDeduct=2,marksGot=0;
 		int correctAns=0;
 		int attempted=0;
 		

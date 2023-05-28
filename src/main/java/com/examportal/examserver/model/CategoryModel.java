@@ -16,6 +16,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class CategoryModel {
+	
+	private int cid;
 	private String title;
 	
 	private String description;

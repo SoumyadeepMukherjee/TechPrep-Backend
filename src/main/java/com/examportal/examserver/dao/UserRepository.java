@@ -13,7 +13,6 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	@Query("select u from User u where u.username=:username")
 	public User findByUsername(String username);
 	
-	
-	//Deleting user by id
-//	public void deleteUser(Long id);
+	@Query("select u from User u where u.email=:email")
+	public User findbyEmail(String email);
 }

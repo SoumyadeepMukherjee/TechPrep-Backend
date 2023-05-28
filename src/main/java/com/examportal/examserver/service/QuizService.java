@@ -1,7 +1,9 @@
 package com.examportal.examserver.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ public class QuizService {
 		for (Quiz q:quizList)
 		{
 			QuizModel quiz=new QuizModel();
+			quiz.setQid(q.getQid());
 			quiz.setTitle(q.getTitle());
 			quiz.setDescription(q.getDescription());
 			quiz.setMaxMarks(q.getMaxMarks());
@@ -55,5 +58,26 @@ public class QuizService {
 		
 		return q;
 	}
-	
+
+	public List<QuizModel> viewQuizzesByCategory(int cid) {
+		// TODO Auto-generated method stub
+
+		List<Quiz> quizList= this.quizRepo.findByCategory(cid);
+		List<QuizModel> quizzes=new ArrayList<>();
+		
+		for (Quiz q:quizList)
+		{
+			QuizModel quiz=new QuizModel();
+			quiz.setQid(q.getQid());
+			quiz.setTitle(q.getTitle());
+			quiz.setDescription(q.getDescription());
+			quiz.setMaxMarks(q.getMaxMarks());
+			quiz.setNoOfQs(q.getNoOfQs());
+			
+			quizzes.add(quiz);
+		}
+		
+		return quizzes;
+	}
+		
 }

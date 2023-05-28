@@ -17,7 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class QuizModel {
-	
+	private int qid;
 	private String title;
 	private String description;
 	private String maxMarks;

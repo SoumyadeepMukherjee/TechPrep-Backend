@@ -1,6 +1,9 @@
 package com.examportal.examserver.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,17 +17,12 @@ import com.examportal.examserver.service.UserService;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("http://localhost:3000")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 	
-//	@PostMapping("/")
-//	public User createUser(@RequestBody UserModel userModel) throws Exception
-//	{
-//		
-//		return userService.createUser(userModel);
-//	}
 	
 	@GetMapping("/{userName}")
 	public User getUser(@PathVariable("userName") String username)
@@ -32,9 +30,18 @@ public class UserController {
 		return this.userService.getUser(username);
 	}
 	
-//	@DeleteMapping("/{userId}")
-//	public void deleteUser(@PathVariable("userId") int userId)
-//	{
-//		this.userService.deleteUser(userId);
-//	}
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody UserModel u)
+	{
+		User user=userService.findByEmail(u.getEmail());
+		
+		if (user == null || !user.getPassword().equals(u.getPassword())) 
+		{
+		      // Invalid credentials, return an error response
+		      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+		}
+
+		// Valid credentials, return a success response
+		return ResponseEntity.ok().body("Login successful");
+	}
 }
