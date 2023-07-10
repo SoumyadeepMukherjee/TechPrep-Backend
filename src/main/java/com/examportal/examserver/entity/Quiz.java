@@ -29,6 +29,84 @@ import lombok.ToString;
 @ToString
 public class Quiz {
 	
+	public Quiz() {
+		super();
+	}
+
+	public Quiz(int qid, String title, String description, String maxMarks, String noOfQs, Category category,
+			List<Question> questions) {
+		super();
+		this.qid = qid;
+		this.title = title;
+		this.description = description;
+		this.maxMarks = maxMarks;
+		this.noOfQs = noOfQs;
+		this.category = category;
+		this.questions = questions;
+	}
+
+	@Override
+	public String toString() {
+		return "Quiz [qid=" + qid + ", title=" + title + ", description=" + description + ", maxMarks=" + maxMarks
+				+ ", noOfQs=" + noOfQs + ", category=" + category + ", questions=" + questions + "]";
+	}
+
+	public int getQid() {
+		return qid;
+	}
+
+	public void setQid(int qid) {
+		this.qid = qid;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getMaxMarks() {
+		return maxMarks;
+	}
+
+	public void setMaxMarks(String maxMarks) {
+		this.maxMarks = maxMarks;
+	}
+
+	public String getNoOfQs() {
+		return noOfQs;
+	}
+
+	public void setNoOfQs(String noOfQs) {
+		this.noOfQs = noOfQs;
+	}
+
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
+	public List<Question> getQuestions() {
+		return questions;
+	}
+
+	public void setQuestions(List<Question> questions) {
+		this.questions = questions;
+	}
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int qid;

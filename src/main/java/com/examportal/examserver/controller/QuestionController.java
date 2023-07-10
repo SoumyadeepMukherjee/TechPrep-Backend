@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.examportal.examserver.entity.Question;
 import com.examportal.examserver.entity.Quiz;
+import com.examportal.examserver.entity.UserScores;
 import com.examportal.examserver.exception.QuestionNotFoundException;
 import com.examportal.examserver.exception.QuizNotFoundException;
 import com.examportal.examserver.model.EvaluationModel;
 import com.examportal.examserver.model.QuestionInputModel;
 import com.examportal.examserver.model.QuestionOutputModel;
+import com.examportal.examserver.model.UserScoresModel;
 import com.examportal.examserver.service.QuestionService;
 import com.examportal.examserver.service.QuizService;
 
@@ -40,19 +42,9 @@ public class QuestionController {
 	private QuizService quizService;
 
 	
-//	@GetMapping("/")
-//	public ResponseEntity<?> getQuestions()
-//	{
-//		return ResponseEntity.ok(this.questionService.viewQuestions());
-//	}
-	
 	@GetMapping("/quiz/{qid}")
 	public ResponseEntity<?> getQuestionByQuiz(@PathVariable("qid") int qid) throws QuestionNotFoundException, QuizNotFoundException
 	{
-//		Quiz quiz=new Quiz();
-//		quiz.setQid(qid);
-//		Set<Question> questions= this.questionService.getQuestionsByQuiz(quiz);
-//		return ResponseEntity.ok(questions);
 		
 		Quiz quiz=this.quizService.viewQuiz(qid);
 		List<Question> questions=quiz.getQuestions();
@@ -77,17 +69,35 @@ public class QuestionController {
 		return this.questionService.viewQuestion(quesId);
 	}
 	
-	@PostMapping("/eval-quiz")
-	public ResponseEntity<?> evalQuiz(@RequestBody EvaluationModel evaluationModel) throws QuestionNotFoundException
-	{
-		//System.out.println(questions);
-		
-		Map<String, Object> mp=this.questionService.evaluateQuiz(evaluationModel);
-		
-		logger.info("Questions attempted :"+mp.get("attempted"));
-		logger.info("Correct Answers :"+mp.get("correctAnswers"));
-		logger.info("Score :"+mp.get("marksGot"));
-		
-		return ResponseEntity.ok(mp);
-	}
+	@GetMapping("/userscores")
+    public List<UserScores> getQuizResultsByUserName() {
+        List<UserScores> userScores = questionService.viewQuizResults();
+        logger.info("Quiz results for user {}: {}", userScores);
+        return this.questionService.viewQuizResults();
+    }
+
+    @PostMapping("/scores")
+    public ResponseEntity<UserScores> saveQuizResult(@RequestBody UserScoresModel quizResult) {
+        UserScores savedQuizResult = questionService.saveQuizResult(quizResult);
+        logger.info("Saved quiz result: {}", savedQuizResult);
+        return ResponseEntity.ok(savedQuizResult);
+    }
+	
+	
+//	@PostMapping("/eval-quiz")
+//	public ResponseEntity<?> evalQuiz(@RequestBody EvaluationModel evaluationModel) throws QuestionNotFoundException
+//	{
+//		//System.out.println(questions);
+//		
+//		Map<String, Object> mp=this.questionService.evaluateQuiz(evaluationModel);
+//		
+//		logger.info("Questions attempted :"+mp.get("attempted"));
+//		logger.info("Correct Answers :"+mp.get("correctAnswers"));
+//		logger.info("Score :"+mp.get("marksGot"));
+//		
+//		return ResponseEntity.ok(mp);
+//	}
+	
+	
+	
 }

@@ -26,6 +26,56 @@ import lombok.ToString;
 @ToString
 public class Category {
 	
+	public Category() {
+		super();
+	}
+
+	public Category(int cid, String title, String description, List<Quiz> quizzes) {
+		super();
+		this.cid = cid;
+		this.title = title;
+		this.description = description;
+		this.quizzes = quizzes;
+	}
+
+	@Override
+	public String toString() {
+		return "Category [cid=" + cid + ", title=" + title + ", description=" + description + ", quizzes=" + quizzes
+				+ "]";
+	}
+
+	public int getCid() {
+		return cid;
+	}
+
+	public void setCid(int cid) {
+		this.cid = cid;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public List<Quiz> getQuizzes() {
+		return quizzes;
+	}
+
+	public void setQuizzes(List<Quiz> quizzes) {
+		this.quizzes = quizzes;
+	}
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int cid;

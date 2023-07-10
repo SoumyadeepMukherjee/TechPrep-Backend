@@ -1,5 +1,6 @@
 package com.examportal.examserver.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -13,12 +14,17 @@ import org.springframework.stereotype.Service;
 
 import com.examportal.examserver.dao.QuestionRepository;
 import com.examportal.examserver.dao.QuizRepository;
+import com.examportal.examserver.dao.UserRepository;
+import com.examportal.examserver.dao.UserScoreRepository;
 import com.examportal.examserver.entity.Question;
 import com.examportal.examserver.entity.Quiz;
+import com.examportal.examserver.entity.User;
+import com.examportal.examserver.entity.UserScores;
 import com.examportal.examserver.exception.QuestionNotFoundException;
 import com.examportal.examserver.model.EvaluationModel;
 import com.examportal.examserver.model.QuestionInputModel;
 import com.examportal.examserver.model.QuestionOutputModel;
+import com.examportal.examserver.model.UserScoresModel;
 
 @Service
 public class QuestionService 
@@ -28,6 +34,12 @@ public class QuestionService
 	
 	@Autowired
 	private QuestionRepository questionRepo;
+	
+	@Autowired
+	private UserRepository userRepo;
+
+	@Autowired
+	private UserScoreRepository userScoreRepo;
 
 	
 	//Get all the questions list
@@ -99,48 +111,81 @@ public class QuestionService
 		
 		return questions;
 	}
+	
+	//Viewing the quiz results by user name
+	public List<UserScores> viewQuizResults()
+	{
+		//User user=this.userRepo.findByUsername(userName);
+
+		return userScoreRepo.findAll();
+		
+	}
+	
+	//Saving the quiz results
+	public UserScores saveQuizResult(UserScoresModel quizResult) {
+		UserScores userScore=new UserScores();
+		userScore.setQid(quizResult.getQid());
+		userScore.setCorrectAns(quizResult.getCorrectAns());
+		userScore.setExamDate(quizResult.getExamDate());
+		userScore.setScore(quizResult.getScore());
+		
+		UserScores score= userScoreRepo.save(userScore);
+		
+		return score;
+	}
+	
+	
+
 
 	//Evaluate a set of questions
-	public Map<String,Object> evaluateQuiz(EvaluationModel evaluationModel) throws QuestionNotFoundException
-	{
-		logger.info("Start of evaluating quiz method");
-		
-		int marksSingle=5,marksDeduct=2,marksGot=0;
-		int correctAns=0;
-		int attempted=0;
-		
-		for (QuestionOutputModel q:evaluationModel.getQuestions())
-		{
-			QuestionInputModel question=this.viewQuestion(q.getQuesId());
-			
-			if (question==null)
-				throw new QuestionNotFoundException("Question Not Found!");
-			
-			if (question.getAns().equals(q.getGivenAns()))
-			{
-				//Correct  ans
-				correctAns++;
-				
-				//marksSingle=Double.parseDouble(quizRepo.getQuiz(q.getQuesId()).getMaxMarks())/evaluationModel.getQuestions().size();
-				
-				marksGot+=marksSingle;
-			}
-			
-			else
-			{
-				marksGot-=marksDeduct;
-			}
-			
-			if (q.getGivenAns()!=null)
-			{
-				attempted++;
-			}
-			
-		}
-		
-		Map<String,Object> map=Map.of("marksGot",marksGot,"correctAnswers",correctAns,"attempted",attempted,"userId",evaluationModel.getUserId(),"quizId",evaluationModel.getQid());
-		
-		return map;
-	}
+//	public Map<String,Object> evaluateQuiz(EvaluationModel evaluationModel) throws QuestionNotFoundException
+//	{
+//		logger.info("Start of evaluating quiz method");
+//		
+//		int marksSingle=5,marksGot=0;
+//		int correctAns=0;
+//		int attempted=0;
+//		
+//		for (QuestionOutputModel q:evaluationModel.getQuestions())
+//		{
+//			QuestionInputModel question=this.viewQuestion(q.getQuesId());
+//			
+//			if (question==null)
+//				throw new QuestionNotFoundException("Question Not Found!");
+//			
+//			if (question.getAns().equals(q.getGivenAns()))
+//			{
+//				//Correct  ans
+//				correctAns++;
+//				
+//				//marksSingle=Double.parseDouble(quizRepo.getQuiz(q.getQuesId()).getMaxMarks())/evaluationModel.getQuestions().size();
+//				
+//				marksGot+=marksSingle;
+//			}
+//			
+//			
+//			if (q.getGivenAns()!=null)
+//			{
+//				attempted++;
+//			}
+//			
+//		}
+//		
+//		User user=userRepo.findById(evaluationModel.getUserId()).orElse(null);
+//		UserScores userScore=new UserScores();
+//		userScore.setScore(marksGot);
+//		userScore.setCorrectAns(correctAns);
+//		//userScore.setExamDate(LocalDateTime.now());
+//		userScore.setQid(evaluationModel.getQid());
+//		
+//		user.getUserScores().add(userScore);
+//		
+//		userRepo.save(user);
+//		
+//		Map<String,Object> map=Map.of("marksGot",marksGot,"correctAnswers",correctAns,"attempted",attempted,"userId",evaluationModel.getUserId(),"quizId",evaluationModel.getQid());
+//		
+//		return map;
+//	}
+
 	
 }
