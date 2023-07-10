@@ -1,3 +1,3 @@
-# Online-Exam-Portal
+# TechPrep
 
-ExamPrep is an Online Exam Portal made using Spring Boot in the Backend and Angular in the Frontend. 
+TechPrep is an Online Exam Portal made using Spring Boot in the Backend and React in the Frontend. 
